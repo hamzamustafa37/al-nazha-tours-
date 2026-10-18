@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///Users/roy/Documents/GitHub/al-nazha-tours-/src/components/LanguageSwitcher.tsx"],"sourcesContent":["\"use client\";\n\nimport Link from \"next/link\";\nimport { usePathname } from \"next/navigation\";\nimport type { Locale } from \"@/lib/i18n\";\n\n// Swaps the locale prefix so visitors stay on the same page.\nexport default function LanguageSwitcher({ lang, label }: { lang: Locale; label: string }) {\n  const pathname = usePathname() || `/${lang}`;\n  const target: Locale = lang === \"ar\" ? \"en\" : \"ar\";\n  const href = pathname.replace(/^\\/(en|ar)(?=\\/|$)/, `/${target}`);\n\n  return (\n    <Link href={href} className=\"lang-switch\" hrefLang={target} lang={target}>\n      {label}\n    </Link>\n  );\n}\n"],"names":["LanguageSwitcher","lang","label","pathname","target","href","replace","className","hrefLang"],"mappings":";;;;;AAEA;AACA;;;AAHA;;;AAOe,SAASA,iBAAiB,EAAEC,IAAI,EAAEC,KAAK,EAAmC;;IACvF,MAAMC,WAAW,IAAA,oJAAW,OAAM,CAAC,CAAC,EAAEF,MAAM;IAC5C,MAAMG,SAAiBH,SAAS,OAAO,OAAO;IAC9C,MAAMI,OAAOF,SAASG,OAAO,CAAC,sBAAsB,CAAC,CAAC,EAAEF,QAAQ;IAEhE,qBACE,6LAAC,0KAAI;QAACC,MAAMA;QAAME,WAAU;QAAcC,UAAUJ;QAAQH,MAAMG;kBAC/DF;;;;;;AAGP;GAVwBF;;QACL,oJAAW;;;KADNA"}}]
+}
