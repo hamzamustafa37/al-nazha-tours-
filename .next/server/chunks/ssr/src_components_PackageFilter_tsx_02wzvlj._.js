@@ -1,0 +1,3 @@
+module.exports=[16897,a=>{"use strict";var b=a.i(87924),c=a.i(72131);a.s(["default",0,function({labels:a,children:d}){let[e,f]=(0,c.useState)("all");return(0,b.jsxs)(b.Fragment,{children:[(0,b.jsx)("div",{className:"tabs",role:"group",children:["all","international","domestic"].map(c=>(0,b.jsx)("button",{type:"button",className:e===c?"active":"","aria-pressed":e===c,onClick:()=>f(c),children:a[c]},c))}),(0,b.jsx)("div",{className:"pkg-grid",children:c.Children.map(d,a=>(0,c.isValidElement)(a)?"all"===e||a.props["data-region"]===e?a:null:a)})]})}])}];
+
+//# sourceMappingURL=src_components_PackageFilter_tsx_02wzvlj._.js.map

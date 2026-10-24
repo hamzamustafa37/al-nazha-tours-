@@ -17,6 +17,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return [
     ...page("", 1, "weekly"),
+    ...page("/packages", 0.9, "monthly"),
+    ...page("/services", 0.8, "monthly"),
+    ...page("/about", 0.6, "yearly"),
     ...page("/contact", 0.7, "yearly"),
     ...serviceSlugs.flatMap((slug) => page(`/services/${slug}`, slug === "umrah-packages" ? 0.9 : 0.8, "monthly")),
   ];

@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import ContactForm from "@/components/ContactForm";
-import { CheckIcon, WhatsAppIcon } from "@/components/icons";
+import PageHero from "@/components/PageHero";
+import { CheckIcon, ServiceIcon, WhatsAppIcon } from "@/components/icons";
 import { isLocale, languageAlternates, locales } from "@/lib/i18n";
 import { SITE_URL, business, getContent, serviceSlugs, whatsappLink } from "@/lib/site";
 
@@ -61,7 +62,8 @@ export default async function ServicePage({ params }: Props) {
       "@type": "BreadcrumbList",
       itemListElement: [
         { "@type": "ListItem", position: 1, name: t.home, item: `${SITE_URL}/${lang}` },
-        { "@type": "ListItem", position: 2, name: s.title, item: url },
+        { "@type": "ListItem", position: 2, name: c.ui.nav.services, item: `${SITE_URL}/${lang}/services` },
+        { "@type": "ListItem", position: 3, name: s.title, item: url },
       ],
     },
   ];
@@ -70,40 +72,39 @@ export default async function ServicePage({ params }: Props) {
 
   return (
     <>
-      <section className="page-head">
-        <div className="container">
-          <nav className="crumbs" aria-label="Breadcrumb">
-            <Link href={`/${lang}`}>{t.home}</Link> / <span>{s.title}</span>
-          </nav>
-          <h1>{s.title}</h1>
-          <p>{s.intro}</p>
-          <div className="hero-cta">
-            <a className="btn btn-primary" href={whatsappLink(c.ui.wa.service(s.title))} target="_blank" rel="noopener">
-              <WhatsAppIcon /> {t.enquire}
-            </a>
-          </div>
+      <PageHero
+        lang={lang}
+        eyebrow={c.ui.servicesPage.eyebrow}
+        titleA={s.title}
+        text={s.intro}
+        crumbs={[{ label: c.ui.nav.services, href: `/${lang}/services` }, { label: s.title }]}
+      >
+        <div className="hero-cta">
+          <a className="btn btn-primary" href={whatsappLink(c.ui.wa.service(s.title))} target="_blank" rel="noopener">
+            <WhatsAppIcon /> {t.enquire}
+          </a>
         </div>
-      </section>
+      </PageHero>
 
-      <section className="section soft">
+      <section className="section-tight">
         <div className="container two-col">
           <div>
             <span className="eyebrow">{t.includedEyebrow}</span>
-            <h2 style={{ fontSize: "clamp(26px,3.5vw,34px)", marginBottom: 28 }}>{t.includedTitle}</h2>
+            <h2 className="h-section">{t.includedTitle}</h2>
             <ul className="checklist">
               {s.includes.map((i) => (
                 <li key={i}><CheckIcon /> {i}</li>
               ))}
             </ul>
           </div>
-          <div className="card">
-            <h3 style={{ marginBottom: 20 }}>{t.quoteTitle}</h3>
+          <div className="card form-card">
+            <h2>{t.quoteTitle}</h2>
             <ContactForm lang={lang} defaultService={s.title} />
           </div>
         </div>
       </section>
 
-      <section className="section">
+      <section className="section soft">
         <div className="container">
           <div className="section-head">
             <span className="eyebrow">{t.moreEyebrow}</span>
@@ -112,6 +113,7 @@ export default async function ServicePage({ params }: Props) {
           <div className="grid grid-3">
             {others.map((o) => (
               <Link key={o.slug} href={`/${lang}/services/${o.slug}`} className="card">
+                <div className="icon"><ServiceIcon slug={o.slug} /></div>
                 <h3>{o.title}</h3>
                 <p>{o.short}</p>
               </Link>

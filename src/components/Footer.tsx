@@ -11,8 +11,17 @@ export default function Footer({ lang }: { lang: Locale }) {
       <div className="container">
         <div className="footer-grid">
           <div>
-            <Image src="/logo.png" alt={c.name} width={154} height={70} />
+            <Image src="/logo-light.png" alt={c.name} width={154} height={70} />
             <p className="about">{t.about}</p>
+          </div>
+          <div>
+            <h4>{t.explore}</h4>
+            <ul>
+              <li><Link href={`/${lang}/about`}>{c.ui.nav.about}</Link></li>
+              <li><Link href={`/${lang}/packages`}>{c.ui.nav.packages}</Link></li>
+              <li><Link href={`/${lang}/services`}>{c.ui.nav.services}</Link></li>
+              <li><Link href={`/${lang}/contact`}>{c.ui.nav.contact}</Link></li>
+            </ul>
           </div>
           <div>
             <h4>{t.services}</h4>

@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import ContactForm from "@/components/ContactForm";
+import PageHero from "@/components/PageHero";
+import { ArrowIcon, MailIcon, PhoneIcon, PinIcon, WhatsAppIcon } from "@/components/icons";
 import { isLocale, languageAlternates, type Locale } from "@/lib/i18n";
 import { business, getContent } from "@/lib/site";
 
@@ -25,36 +27,57 @@ export default async function ContactPage({ params }: Props) {
   const c = getContent(lang);
   const t = c.ui.contactPage;
   const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(business.mapQuery)}&hl=${lang}&output=embed`;
+  const directions = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(business.mapQuery)}`;
 
   return (
     <>
-      <section className="page-head">
-        <div className="container">
-          <span className="eyebrow">{t.eyebrow}</span>
-          <h1>{t.title}</h1>
-          <p>{t.text}</p>
-        </div>
-      </section>
+      <PageHero lang={lang} eyebrow={t.eyebrow} titleA={t.titleA} titleEm={t.titleEm} text={t.text} crumbs={[{ label: c.ui.nav.contact }]} />
 
-      <section className="container two-col">
+      <section className="section-tight container two-col">
         <div>
-          <dl className="info-list">
-            <div><dt>{t.mobile}</dt><dd><a href={business.mobileHref} dir="ltr">{business.mobile}</a></dd></div>
-            <div><dt>{t.tel}</dt><dd><a href={business.phoneHref} dir="ltr">{business.phone}</a></dd></div>
-            <div><dt>{t.email}</dt><dd><a href={`mailto:${business.email}`}>{business.email}</a></dd></div>
-            <div>
-              <dt>{t.office}</dt>
-              <dd>
-                {c.address.street}<br />
-                {c.address.cityLine}<br />
-                {c.address.poBox}
-              </dd>
-            </div>
-          </dl>
-          <iframe className="map" src={mapSrc} title={t.mapTitle} loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
+          <ul className="contact-list">
+            <li>
+              <WhatsAppIcon />
+              <div>
+                <span>{t.mobile}</span>
+                <a href={business.mobileHref} dir="ltr">{business.mobile}</a>
+              </div>
+            </li>
+            <li>
+              <PhoneIcon />
+              <div>
+                <span>{t.tel}</span>
+                <a href={business.phoneHref} dir="ltr">{business.phone}</a>
+              </div>
+            </li>
+            <li>
+              <MailIcon />
+              <div>
+                <span>{t.email}</span>
+                <a href={`mailto:${business.email}`}>{business.email}</a>
+              </div>
+            </li>
+            <li>
+              <PinIcon />
+              <div>
+                <span>{t.office}</span>
+                <p>
+                  {c.address.street}<br />
+                  {c.address.cityLine}<br />
+                  {c.address.poBox}
+                </p>
+              </div>
+            </li>
+          </ul>
+          <div className="map-wrap">
+            <iframe className="map" src={mapSrc} title={t.mapTitle} loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
+            <a className="btn btn-navy btn-sm" href={directions} target="_blank" rel="noopener">
+              {t.directions} <ArrowIcon className="flip-rtl" />
+            </a>
+          </div>
         </div>
-        <div className="card">
-          <h2 style={{ fontSize: 24, marginBottom: 20 }}>{t.formTitle}</h2>
+        <div className="card form-card">
+          <h2>{t.formTitle}</h2>
           <ContactForm lang={lang} />
         </div>
       </section>

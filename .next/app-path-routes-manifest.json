@@ -1,0 +1,13 @@
+{
+  "/[lang]/about/page": "/[lang]/about",
+  "/[lang]/contact/page": "/[lang]/contact",
+  "/[lang]/packages/page": "/[lang]/packages",
+  "/[lang]/page": "/[lang]",
+  "/[lang]/services/[slug]/page": "/[lang]/services/[slug]",
+  "/[lang]/services/page": "/[lang]/services",
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/icon.svg/route": "/icon.svg",
+  "/robots.txt/route": "/robots.txt",
+  "/sitemap.xml/route": "/sitemap.xml"
+}

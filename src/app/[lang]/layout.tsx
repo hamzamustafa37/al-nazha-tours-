@@ -1,11 +1,16 @@
 import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
+import { Cairo, Poppins } from "next/font/google";
+import BottomNav from "@/components/BottomNav";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { WhatsAppIcon } from "@/components/icons";
 import { dir, isLocale, languageAlternates, locales } from "@/lib/i18n";
 import { SITE_URL, business, getContent, whatsappLink } from "@/lib/site";
 import "../globals.css";
+
+const sans = Poppins({ subsets: ["latin"], weight: ["400", "500", "600", "700"], variable: "--font-sans" });
+const arabic = Cairo({ subsets: ["arabic"], weight: ["400", "600", "700"], variable: "--font-arabic" });
 
 type Props = { children: React.ReactNode; params: Promise<{ lang: string }> };
 
@@ -43,7 +48,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export const viewport: Viewport = { themeColor: "#ffffff" };
+export const viewport: Viewport = { themeColor: "#1e3a8a" };
 
 export default async function LangLayout({ children, params }: Props) {
   const { lang } = await params;
@@ -82,12 +87,13 @@ export default async function LangLayout({ children, params }: Props) {
   };
 
   return (
-    <html lang={lang} dir={dir(lang)}>
+    <html lang={lang} dir={dir(lang)} className={`${sans.variable} ${arabic.variable}`}>
       <body>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         <Header lang={lang} />
         <main>{children}</main>
         <Footer lang={lang} />
+        <BottomNav lang={lang} />
         <a className="wa-float" href={whatsappLink(c.ui.wa.general)} target="_blank" rel="noopener" aria-label={c.ui.wa.floatLabel}>
           <WhatsAppIcon />
         </a>

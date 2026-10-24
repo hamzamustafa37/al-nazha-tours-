@@ -1,7 +1,10 @@
 import Link from "next/link";
-import { ArrowIcon, CheckIcon, PhoneIcon, ServiceIcon, WhatsAppIcon } from "@/components/icons";
+import { HeroArt } from "@/components/Art";
+import PackageCard from "@/components/PackageCard";
+import SearchBar from "@/components/SearchBar";
+import { ArrowIcon, PlaneIcon, ServiceIcon } from "@/components/icons";
 import { isLocale, type Locale } from "@/lib/i18n";
-import { business, getContent, whatsappLink } from "@/lib/site";
+import { getContent } from "@/lib/site";
 
 type Props = { params: Promise<{ lang: string }> };
 
@@ -10,7 +13,6 @@ export default async function Home({ params }: Props) {
   const lang = (isLocale(raw) ? raw : "en") as Locale;
   const c = getContent(lang);
   const t = c.ui;
-  const umrah = c.services[0];
 
   const faqJsonLd = {
     "@context": "https://schema.org",
@@ -25,70 +27,60 @@ export default async function Home({ params }: Props) {
 
   return (
     <>
-      <section className="hero">
-        <div className="container">
-          <p className="hero-alt" lang={lang === "ar" ? "en" : "ar"}>{c.altName}</p>
+      <section className="hero hero-home">
+        <HeroArt />
+        <div className="container hero-content">
+          <span className="eyebrow">{t.hero.eyebrow}</span>
           <h1>
-            {t.hero.h1a}<em>{t.hero.h1em}</em>{t.hero.h1b}
+            {t.hero.h1a}
+            <br />
+            <em>{t.hero.h1em}</em>
           </h1>
           <p className="lead">{t.hero.lead}</p>
-          <div className="hero-cta">
-            <a className="btn btn-primary" href={whatsappLink(t.wa.general)} target="_blank" rel="noopener">
-              <WhatsAppIcon /> {t.hero.cta}
-            </a>
-            <a className="btn btn-ghost" href={business.mobileHref}>
-              <PhoneIcon /> <span dir="ltr">{business.mobile}</span>
-            </a>
-          </div>
-          <div className="hero-meta">
-            {t.hero.meta.map(([strong, rest]) => (
-              <span key={strong}><strong>{strong}</strong> {rest}</span>
-            ))}
-          </div>
         </div>
       </section>
-
-      <section id="services" className="section soft">
-        <div className="container">
-          <div className="section-head">
-            <span className="eyebrow">{t.servicesSection.eyebrow}</span>
-            <h2>{t.servicesSection.title}</h2>
-            <p>{t.servicesSection.text}</p>
-          </div>
-          <div className="grid grid-3">
-            {c.services.map((s) => (
-              <Link key={s.slug} href={`/${lang}/services/${s.slug}`} className="card">
-                <div className="icon"><ServiceIcon slug={s.slug} /></div>
-                <h3>{s.title}</h3>
-                <p>{s.short}</p>
-                <span className="more">{t.servicesSection.more}</span>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
+      <div className="container search-wrap">
+        <SearchBar lang={lang} />
+      </div>
 
       <section className="section">
         <div className="container">
-          <div className="feature">
+          <div className="section-row">
             <div>
-              <span className="eyebrow">{t.umrahSection.eyebrow}</span>
-              <h2>{t.umrahSection.title}</h2>
-              <p>{umrah.intro}</p>
-              <div className="hero-cta">
-                <a className="btn btn-primary" href={whatsappLink(t.wa.umrah)} target="_blank" rel="noopener">
-                  <WhatsAppIcon /> {t.umrahSection.cta}
-                </a>
-                <Link className="btn btn-ghost" href={`/${lang}/services/${umrah.slug}`}>
-                  {t.umrahSection.details} <ArrowIcon className="flip-rtl" />
-                </Link>
-              </div>
+              <h2>{t.home.destTitle}</h2>
+              <p>{t.home.destText}</p>
             </div>
-            <ul className="checklist">
-              {umrah.includes.map((i) => (
-                <li key={i}><CheckIcon /> {i}</li>
-              ))}
-            </ul>
+            <Link href={`/${lang}/packages`} className="link-more">
+              {t.home.viewAll} <ArrowIcon className="flip-rtl" />
+            </Link>
+          </div>
+          <div className="dest-grid">
+            {c.packages.slice(0, 4).map((p) => (
+              <Link key={p.slug} href={`/${lang}/packages`}>
+                <PackageCard lang={lang} pkg={p} compact />
+              </Link>
+            ))}
+          </div>
+
+          <div className="tile-grid">
+            {c.services.map((s) => (
+              <Link key={s.slug} href={`/${lang}/services/${s.slug}`} className="tile">
+                <ServiceIcon slug={s.slug} />
+                <strong>{s.title}</strong>
+                <span>{s.tag}</span>
+              </Link>
+            ))}
+          </div>
+
+          <div className="banner">
+            <PlaneIcon className="banner-icon" />
+            <div>
+              <h3>{t.home.dealTitle}</h3>
+              <p>{t.home.dealText}</p>
+            </div>
+            <Link className="btn btn-primary" href={`/${lang}/packages`}>
+              {t.home.dealCta} <ArrowIcon className="flip-rtl" />
+            </Link>
           </div>
         </div>
       </section>
@@ -127,19 +119,6 @@ export default async function Home({ params }: Props) {
           </div>
         </div>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
-      </section>
-
-      <section className="container">
-        <div className="cta">
-          <h2>{t.ctaSection.title}</h2>
-          <p>{t.ctaSection.text}</p>
-          <div className="hero-cta">
-            <a className="btn btn-primary" href={whatsappLink(t.wa.general)} target="_blank" rel="noopener">
-              <WhatsAppIcon /> {t.ctaSection.whatsapp}
-            </a>
-            <Link className="btn btn-ghost" href={`/${lang}/contact`}>{t.ctaSection.visit}</Link>
-          </div>
-        </div>
       </section>
     </>
   );

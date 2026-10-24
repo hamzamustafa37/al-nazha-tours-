@@ -13,6 +13,7 @@ npm run build && npm start
 
 ## Editing content
 All business details, services, FAQs and UI text (both languages) live in `src/lib/site.ts` — the `en` and `ar` objects mirror each other.
+Packages (`packages`) show "Price on request" until you fill in their `days` / `from` fields. Destination and hero images are SVG illustrations; to use photos, put them in `public/destinations/` and set a package's `image`.
 Set `SITE_URL` there to the real domain before going live (used for canonical URLs, sitemap, Open Graph and schema).
 
 ## SEO built in

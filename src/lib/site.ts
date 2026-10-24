@@ -24,10 +24,27 @@ export function whatsappLink(message: string) {
 export type Service = {
   slug: string;
   title: string;
+  tag: string;
   short: string;
   intro: string;
   includes: string[];
   keywords: string[];
+};
+
+export type Region = "international" | "domestic";
+
+// Fill in `days` / `from` (e.g. "7 days", "AED 2,950") once prices are confirmed — cards show them when set.
+// Drop a photo at public/destinations/<slug>.jpg and set `image` to use it instead of the illustration.
+export type Package = {
+  slug: string;
+  region: Region;
+  art: "towers" | "twin" | "mosque" | "domes" | "desert" | "mountains";
+  title: string;
+  place: string;
+  short: string;
+  days?: string;
+  from?: string;
+  image?: string;
 };
 
 const en = {
@@ -46,6 +63,7 @@ const en = {
     {
       slug: "umrah-packages",
       title: "Umrah Packages",
+      tag: "Visa, flights & hotels",
       short: "Visa, flights, hotels near the Haram and transport — arranged as one package.",
       intro:
         "Perform Umrah with peace of mind. We handle the Umrah visa, return flights from the UAE, hotels in Makkah and Madinah, and ground transport, so you can focus on worship.",
@@ -62,6 +80,7 @@ const en = {
     {
       slug: "visit-visa",
       title: "Visit Visas",
+      tag: "Hassle-free process",
       short: "UAE visit visas and tourist visas for popular destinations worldwide.",
       intro:
         "Whether you are bringing family to the UAE or travelling abroad, we prepare your application, check your documents and keep you updated until the visa is issued.",
@@ -76,6 +95,7 @@ const en = {
     {
       slug: "air-tickets",
       title: "Air Tickets",
+      tag: "Best fares",
       short: "Competitive fares on all major airlines, one-way, return and multi-city.",
       intro:
         "We compare fares across major airlines to find the best price and timing for your trip — from quick hops within the GCC to long-haul family travel.",
@@ -85,6 +105,7 @@ const en = {
     {
       slug: "hotel-booking",
       title: "Hotel Booking",
+      tag: "Global network",
       short: "Hotels worldwide, including Makkah & Madinah, at agency rates.",
       intro: "From hotels steps from the Haram to beach resorts, we book stays that match your budget and itinerary.",
       includes: ["Makkah & Madinah hotels", "City and resort hotels worldwide", "Family rooms and suites", "Confirmed vouchers"],
@@ -93,6 +114,7 @@ const en = {
     {
       slug: "holiday-tours",
       title: "Holiday Tours",
+      tag: "Group & individual",
       short: "Tailored holiday packages abroad and tours within the UAE.",
       intro: "Let us plan your next holiday — flights, hotels, transfers and sightseeing combined into a single, easy itinerary.",
       includes: ["International holiday packages", "UAE city tours & desert safaris", "Honeymoon and family trips", "Custom itineraries"],
@@ -101,12 +123,89 @@ const en = {
     {
       slug: "travel-insurance",
       title: "Travel Insurance",
+      tag: "Stay protected",
       short: "Cover for medical emergencies, delays and lost baggage.",
       intro: "Travel with confidence. We arrange travel insurance that meets visa requirements and protects you on the road.",
       includes: ["Schengen-compliant policies", "Medical and emergency cover", "Trip delay and cancellation", "Single trip and annual plans"],
       keywords: ["travel insurance UAE", "Schengen insurance Sharjah"],
     },
   ] as Service[],
+  packages: [
+    {
+      slug: "umrah",
+      region: "international",
+      art: "domes",
+      title: "Umrah Package",
+      place: "Makkah & Madinah",
+      short: "Visa, flights, hotels near the Haram and transport in one package.",
+    },
+    {
+      slug: "turkey",
+      region: "international",
+      art: "mosque",
+      title: "Turkey",
+      place: "Istanbul & Bursa",
+      short: "Historic mosques, the Bosphorus and Turkish hospitality.",
+    },
+    {
+      slug: "malaysia",
+      region: "international",
+      art: "twin",
+      title: "Malaysia",
+      place: "Kuala Lumpur & Langkawi",
+      short: "City lights, rainforests and island beaches in one trip.",
+    },
+    {
+      slug: "georgia",
+      region: "international",
+      art: "mountains",
+      title: "Georgia",
+      place: "Tbilisi & Gudauri",
+      short: "Mountain views, old towns and cool weather — a short flight away.",
+    },
+    {
+      slug: "dubai",
+      region: "domestic",
+      art: "towers",
+      title: "Dubai City Tour",
+      place: "Dubai, UAE",
+      short: "Burj Khalifa, Dubai Mall, the Creek and the old souks.",
+    },
+    {
+      slug: "abu-dhabi",
+      region: "domestic",
+      art: "domes",
+      title: "Abu Dhabi Tour",
+      place: "Abu Dhabi, UAE",
+      short: "Sheikh Zayed Grand Mosque, the Corniche and Qasr Al Watan.",
+    },
+    {
+      slug: "desert-safari",
+      region: "domestic",
+      art: "desert",
+      title: "Desert Safari",
+      place: "Sharjah & Dubai deserts",
+      short: "Dune drive, camel ride and dinner under the stars.",
+    },
+  ] as Package[],
+  about: {
+    whoTitle: "Who we are",
+    whoText:
+      "Al Nazha Tours is a travel agency on Cinema Road in Khorfakkan, Sharjah. We arrange Umrah packages, visit visas, air tickets, hotel bookings, travel insurance and holidays for individuals, families and groups — with a local team you can call, message or visit.",
+    // Replace with real figures (years in business, travellers served) when available.
+    stats: [
+      { value: "6", label: "Travel services" },
+      { value: "2", label: "Languages — English & Arabic" },
+      { value: "1", label: "Office in Khorfakkan" },
+    ],
+    missionTitle: "Our mission",
+    missionText: "To make every trip simple, safe and well organised — from the first enquiry to the flight home.",
+    visionTitle: "Our vision",
+    visionText: "To be the travel agency families on the East Coast trust first, known for honest prices and personal service.",
+    whyTitle: "Why choose us?",
+    why: ["Clear prices, no hidden fees", "One team for visa, ticket and hotel", "Reachable on WhatsApp throughout your trip"],
+    whyCta: "Get a quote",
+  },
   steps: [
     { title: "Tell us your plan", text: "Message us on WhatsApp or visit our Khorfakkan office." },
     { title: "Get a clear quote", text: "We share options and a transparent price — no hidden fees." },
@@ -128,40 +227,89 @@ const en = {
     },
   ],
   ui: {
-    nav: { services: "Services", umrah: "Umrah", contact: "Contact", whatsapp: "WhatsApp", home: "home" },
+    nav: {
+      home: "Home",
+      about: "About",
+      packages: "Packages",
+      services: "Services",
+      contact: "Contact",
+      whatsapp: "WhatsApp",
+      menu: "Menu",
+      close: "Close menu",
+    },
     switchLabel: "العربية",
     hero: {
-      h1a: "Travel made simple, ",
-      h1em: "from Khorfakkan",
-      h1b: " to the world.",
-      lead: "Umrah packages, visit visas, air tickets and holidays — planned by a local team you can call, message or visit.",
-      cta: "Get a free quote",
-      meta: [
-        ["Umrah", "packages"],
-        ["Visas", "UAE & worldwide"],
-        ["Flights", "all major airlines"],
-        ["Office", "Cinema Road, Khorfakkan"],
-      ],
+      eyebrow: "Explore the world",
+      h1a: "Your Journey",
+      h1em: "Our Priority",
+      lead: "Umrah | Visas | Flights | Hotels | Holidays",
+    },
+    search: {
+      from: "From",
+      fromPh: "Departure city",
+      to: "To",
+      toPh: "Destination",
+      date: "Travel date",
+      submit: "Search",
+      msg: "Hello Al Nazha Tours, I'd like a quote.",
+    },
+    home: {
+      destTitle: "Popular destinations",
+      destText: "Hand-picked trips our travellers love",
+      viewAll: "View all",
+      dealTitle: "Special travel deals",
+      dealText: "Make your next trip unforgettable — ask about this month's offers.",
+      dealCta: "View packages",
     },
     servicesSection: {
       eyebrow: "Services",
       title: "Everything your trip needs, in one place.",
       text: "One team for your visa, ticket, hotel and insurance — no running between offices.",
-      more: "Learn more →",
+      more: "Learn more",
     },
-    umrahSection: { eyebrow: "Umrah", title: "Your Umrah, carefully arranged.", cta: "Ask about Umrah", details: "Details" },
+    aboutPage: {
+      metaTitle: "About Us — Travel Agency in Khorfakkan, Sharjah",
+      metaDescription:
+        "Al Nazha Tours is a local travel agency on Cinema Road, Khorfakkan, arranging Umrah, visas, flights, hotels and holidays.",
+      eyebrow: "About us",
+      titleA: "Your Trusted Travel",
+      titleEm: "Partner",
+      text: "Turning your travel plans into reality",
+    },
+    packagesPage: {
+      metaTitle: "Travel Packages — Umrah, Turkey, Malaysia & UAE Tours",
+      metaDescription:
+        "Umrah packages, holidays abroad and UAE tours from Al Nazha Tours, Khorfakkan. Ask on WhatsApp for dates and prices.",
+      eyebrow: "Travel packages",
+      titleA: "Explore Our",
+      titleEm: "Packages",
+      text: "Hand-picked packages for unforgettable journeys",
+      filters: { all: "All", international: "International", domestic: "Domestic" },
+      details: "View details",
+      priceOnRequest: "Price on request",
+      customTitle: "Custom packages",
+      customText: "Tailor-made trips for your special moments.",
+      customCta: "Enquire now",
+    },
+    servicesPage: {
+      metaTitle: "Our Services — Umrah, Visas, Air Tickets, Hotels & Insurance",
+      metaDescription:
+        "Umrah packages, visit visas, air tickets, hotel booking, holiday tours and travel insurance from Al Nazha Tours in Khorfakkan, Sharjah.",
+      eyebrow: "Our services",
+      titleA: "Travel Made",
+      titleEm: "Easy",
+      text: "Complete travel solutions under one roof",
+      listTitle: "Our services",
+      bannerTitle: "Visa assistance",
+      bannerText: "Get your visa with ease — we check your documents and follow up for you.",
+      bannerCta: "Apply now",
+    },
     stepsSection: {
       eyebrow: "How it works",
       title: "Three steps to your trip.",
       text: "Simple, personal service — the way a neighbourhood travel agency should be.",
     },
     faqSection: { eyebrow: "FAQ", title: "Common questions" },
-    ctaSection: {
-      title: "Planning a trip?",
-      text: "Send us your dates and destination — we'll come back with options and a clear price.",
-      whatsapp: "Chat on WhatsApp",
-      visit: "Visit our office",
-    },
     servicePage: {
       home: "Home",
       titleSuffix: "in Khorfakkan, Sharjah",
@@ -176,9 +324,11 @@ const en = {
       metaTitle: "Contact Us — Travel Agency on Cinema Road, Khorfakkan",
       metaDescription:
         "Visit Al Nazha Tours on Cinema Road, Khorfakkan, Sharjah, or call 050 367 4950. WhatsApp us for Umrah, visas, flights and tours.",
-      eyebrow: "Contact",
-      title: "Let's plan your journey.",
-      text: "Message us on WhatsApp, give us a call, or drop by our office in Khorfakkan.",
+      eyebrow: "Contact us",
+      titleA: "Get In",
+      titleEm: "Touch",
+      text: "We're here to help you plan your next journey",
+      directions: "Get directions",
       mobile: "Mobile & WhatsApp",
       tel: "Telephone",
       email: "Email",
@@ -204,6 +354,7 @@ const en = {
     },
     footer: {
       about: "Your local travel partner in Khorfakkan for Umrah, visas, flights and holidays.",
+      explore: "Explore",
       services: "Services",
       contact: "Contact",
       tel: "Tel",
@@ -214,6 +365,8 @@ const en = {
       general: "Hello Al Nazha Tours, I'd like to enquire about",
       umrah: "Hello Al Nazha Tours, I'd like an Umrah package quote.",
       service: (title: string) => `Hello Al Nazha Tours, I'd like to enquire about ${title}.`,
+      package: (title: string) => `Hello Al Nazha Tours, I'd like details and prices for the ${title} package.`,
+      custom: "Hello Al Nazha Tours, I'd like a custom travel package.",
       floatLabel: "Chat with us on WhatsApp",
     },
     notFound: { title: "Page not found", text: "The page you're looking for doesn't exist.", back: "Back to home" },
@@ -238,6 +391,7 @@ const ar: Content = {
     {
       slug: "umrah-packages",
       title: "باقات العمرة",
+      tag: "تأشيرة وطيران وفنادق",
       short: "التأشيرة والطيران والفنادق القريبة من الحرم والمواصلات — في باقة واحدة.",
       intro:
         "أدِّ العمرة بطمأنينة. نتولى تأشيرة العمرة، ورحلات الطيران ذهاباً وإياباً من الإمارات، والفنادق في مكة المكرمة والمدينة المنورة، والمواصلات، لتتفرغ للعبادة.",
@@ -254,6 +408,7 @@ const ar: Content = {
     {
       slug: "visit-visa",
       title: "تأشيرات الزيارة",
+      tag: "إجراءات بلا متاعب",
       short: "تأشيرات زيارة للإمارات وتأشيرات سياحية لأشهر الوجهات حول العالم.",
       intro:
         "سواء كنت تستقدم عائلتك إلى الإمارات أو تسافر إلى الخارج، نجهز طلبك ونراجع مستنداتك ونطلعك على كل جديد حتى صدور التأشيرة.",
@@ -268,6 +423,7 @@ const ar: Content = {
     {
       slug: "air-tickets",
       title: "تذاكر الطيران",
+      tag: "أفضل الأسعار",
       short: "أسعار تنافسية على جميع شركات الطيران الكبرى، ذهاب فقط أو ذهاب وعودة أو وجهات متعددة.",
       intro:
         "نقارن الأسعار بين شركات الطيران الكبرى لنجد لك أفضل سعر وتوقيت — من الرحلات القصيرة داخل الخليج إلى رحلات العائلة الطويلة.",
@@ -277,6 +433,7 @@ const ar: Content = {
     {
       slug: "hotel-booking",
       title: "حجز الفنادق",
+      tag: "شبكة عالمية",
       short: "فنادق حول العالم، بما فيها مكة والمدينة، بأسعار الوكالات.",
       intro: "من الفنادق القريبة من الحرم إلى المنتجعات الشاطئية، نحجز لك إقامة تناسب ميزانيتك وبرنامج رحلتك.",
       includes: ["فنادق مكة المكرمة والمدينة المنورة", "فنادق ومنتجعات حول العالم", "غرف عائلية وأجنحة", "قسائم حجز مؤكدة"],
@@ -285,6 +442,7 @@ const ar: Content = {
     {
       slug: "holiday-tours",
       title: "الرحلات السياحية",
+      tag: "للأفراد والمجموعات",
       short: "باقات عطلات مصممة لك في الخارج وجولات داخل الإمارات.",
       intro: "دعنا نخطط لعطلتك القادمة — الطيران والفنادق والتنقلات والجولات السياحية في برنامج واحد سهل.",
       includes: ["باقات عطلات دولية", "جولات في مدن الإمارات ورحلات السفاري", "رحلات شهر العسل والعائلات", "برامج حسب الطلب"],
@@ -293,12 +451,39 @@ const ar: Content = {
     {
       slug: "travel-insurance",
       title: "تأمين السفر",
+      tag: "سافر بأمان",
       short: "تغطية للطوارئ الطبية وتأخير الرحلات وفقدان الأمتعة.",
       intro: "سافر بثقة. نوفر لك تأمين سفر يلبي متطلبات التأشيرة ويحميك طوال رحلتك.",
       includes: ["وثائق متوافقة مع متطلبات شنغن", "تغطية طبية وطارئة", "تأخير الرحلة وإلغاؤها", "خطط لرحلة واحدة أو سنوية"],
       keywords: ["تأمين سفر الإمارات", "تأمين شنغن الشارقة"],
     },
   ],
+  packages: [
+    { slug: "umrah", region: "international", art: "domes", title: "باقة العمرة", place: "مكة المكرمة والمدينة المنورة", short: "التأشيرة والطيران وفنادق قريبة من الحرم والمواصلات في باقة واحدة." },
+    { slug: "turkey", region: "international", art: "mosque", title: "تركيا", place: "إسطنبول وبورصة", short: "مساجد تاريخية ومضيق البوسفور وكرم الضيافة التركية." },
+    { slug: "malaysia", region: "international", art: "twin", title: "ماليزيا", place: "كوالالمبور ولنكاوي", short: "أضواء المدينة والغابات المطيرة والشواطئ في رحلة واحدة." },
+    { slug: "georgia", region: "international", art: "mountains", title: "جورجيا", place: "تبليسي وغوداوري", short: "إطلالات جبلية ومدن عريقة وأجواء معتدلة — على بعد رحلة قصيرة." },
+    { slug: "dubai", region: "domestic", art: "towers", title: "جولة في دبي", place: "دبي، الإمارات", short: "برج خليفة ودبي مول والخور والأسواق القديمة." },
+    { slug: "abu-dhabi", region: "domestic", art: "domes", title: "جولة في أبوظبي", place: "أبوظبي، الإمارات", short: "جامع الشيخ زايد الكبير والكورنيش وقصر الوطن." },
+    { slug: "desert-safari", region: "domestic", art: "desert", title: "رحلة السفاري", place: "صحراء الشارقة ودبي", short: "تطعيس فوق الكثبان وركوب الجمال وعشاء تحت النجوم." },
+  ],
+  about: {
+    whoTitle: "من نحن",
+    whoText:
+      "النزهة للسياحة وكالة سفر في شارع السينما بخورفكان، الشارقة. نرتب باقات العمرة وتأشيرات الزيارة وتذاكر الطيران وحجز الفنادق وتأمين السفر والعطلات للأفراد والعائلات والمجموعات — مع فريق محلي يمكنك الاتصال به أو مراسلته أو زيارته.",
+    stats: [
+      { value: "6", label: "خدمات سفر" },
+      { value: "2", label: "لغتان — العربية والإنجليزية" },
+      { value: "1", label: "مكتب في خورفكان" },
+    ],
+    missionTitle: "رسالتنا",
+    missionText: "أن نجعل كل رحلة بسيطة وآمنة ومنظمة — من أول استفسار حتى رحلة العودة.",
+    visionTitle: "رؤيتنا",
+    visionText: "أن نكون وكالة السفر الأولى التي تثق بها عائلات الساحل الشرقي، بأسعار صادقة وخدمة شخصية.",
+    whyTitle: "لماذا تختارنا؟",
+    why: ["أسعار واضحة دون رسوم خفية", "فريق واحد للتأشيرة والتذكرة والفندق", "متاحون عبر واتساب طوال رحلتك"],
+    whyCta: "اطلب عرض سعر",
+  },
   steps: [
     { title: "أخبرنا بخطتك", text: "راسلنا عبر واتساب أو زر مكتبنا في خورفكان." },
     { title: "احصل على عرض سعر واضح", text: "نرسل لك الخيارات وسعراً شفافاً دون رسوم خفية." },
@@ -320,40 +505,89 @@ const ar: Content = {
     },
   ],
   ui: {
-    nav: { services: "خدماتنا", umrah: "العمرة", contact: "اتصل بنا", whatsapp: "واتساب", home: "الرئيسية" },
+    nav: {
+      home: "الرئيسية",
+      about: "من نحن",
+      packages: "الباقات",
+      services: "خدماتنا",
+      contact: "اتصل بنا",
+      whatsapp: "واتساب",
+      menu: "القائمة",
+      close: "إغلاق القائمة",
+    },
     switchLabel: "English",
     hero: {
-      h1a: "السفر أسهل، ",
-      h1em: "من خورفكان",
-      h1b: " إلى العالم.",
-      lead: "باقات عمرة، تأشيرات زيارة، تذاكر طيران وعطلات — يخطط لها فريق محلي يمكنك الاتصال به أو مراسلته أو زيارته.",
-      cta: "اطلب عرض سعر مجاني",
-      meta: [
-        ["العمرة", "باقات متكاملة"],
-        ["التأشيرات", "للإمارات والعالم"],
-        ["الطيران", "جميع شركات الطيران"],
-        ["المكتب", "شارع السينما، خورفكان"],
-      ],
+      eyebrow: "اكتشف العالم",
+      h1a: "رحلتك",
+      h1em: "أولويتنا",
+      lead: "عمرة | تأشيرات | طيران | فنادق | عطلات",
+    },
+    search: {
+      from: "من",
+      fromPh: "مدينة المغادرة",
+      to: "إلى",
+      toPh: "الوجهة",
+      date: "تاريخ السفر",
+      submit: "ابحث",
+      msg: "مرحباً النزهة للسياحة، أود الحصول على عرض سعر.",
+    },
+    home: {
+      destTitle: "وجهات مميزة",
+      destText: "رحلات مختارة يحبها مسافرونا",
+      viewAll: "عرض الكل",
+      dealTitle: "عروض سفر خاصة",
+      dealText: "اجعل رحلتك القادمة لا تُنسى — اسأل عن عروض هذا الشهر.",
+      dealCta: "تصفح الباقات",
     },
     servicesSection: {
       eyebrow: "خدماتنا",
       title: "كل ما تحتاجه رحلتك في مكان واحد.",
       text: "فريق واحد لتأشيرتك وتذكرتك وفندقك وتأمينك — دون التنقل بين المكاتب.",
-      more: "اعرف المزيد ←",
+      more: "اعرف المزيد",
     },
-    umrahSection: { eyebrow: "العمرة", title: "عمرتك، بترتيب متقن.", cta: "استفسر عن العمرة", details: "التفاصيل" },
+    aboutPage: {
+      metaTitle: "من نحن — وكالة سفر في خورفكان، الشارقة",
+      metaDescription:
+        "النزهة للسياحة وكالة سفر محلية في شارع السينما، خورفكان، ترتب العمرة والتأشيرات والطيران والفنادق والعطلات.",
+      eyebrow: "من نحن",
+      titleA: "شريكك الموثوق",
+      titleEm: "في السفر",
+      text: "نحوّل خطط سفرك إلى واقع",
+    },
+    packagesPage: {
+      metaTitle: "باقات السفر — العمرة وتركيا وماليزيا وجولات الإمارات",
+      metaDescription:
+        "باقات عمرة وعطلات خارجية وجولات داخل الإمارات من النزهة للسياحة، خورفكان. اسألنا عبر واتساب عن المواعيد والأسعار.",
+      eyebrow: "باقات السفر",
+      titleA: "اكتشف",
+      titleEm: "باقاتنا",
+      text: "باقات مختارة لرحلات لا تُنسى",
+      filters: { all: "الكل", international: "دولية", domestic: "داخلية" },
+      details: "عرض التفاصيل",
+      priceOnRequest: "السعر عند الطلب",
+      customTitle: "باقات حسب الطلب",
+      customText: "رحلات مصممة خصيصاً للحظاتك المميزة.",
+      customCta: "استفسر الآن",
+    },
+    servicesPage: {
+      metaTitle: "خدماتنا — العمرة والتأشيرات وتذاكر الطيران والفنادق والتأمين",
+      metaDescription:
+        "باقات العمرة وتأشيرات الزيارة وتذاكر الطيران وحجز الفنادق والرحلات السياحية وتأمين السفر من النزهة للسياحة في خورفكان، الشارقة.",
+      eyebrow: "خدماتنا",
+      titleA: "السفر",
+      titleEm: "أسهل",
+      text: "حلول سفر متكاملة تحت سقف واحد",
+      listTitle: "خدماتنا",
+      bannerTitle: "خدمات التأشيرات",
+      bannerText: "احصل على تأشيرتك بسهولة — نراجع مستنداتك ونتابع الطلب عنك.",
+      bannerCta: "قدّم الآن",
+    },
     stepsSection: {
       eyebrow: "كيف نعمل",
       title: "ثلاث خطوات إلى رحلتك.",
       text: "خدمة بسيطة وشخصية — كما ينبغي أن تكون وكالة السفر القريبة منك.",
     },
     faqSection: { eyebrow: "الأسئلة الشائعة", title: "أسئلة متكررة" },
-    ctaSection: {
-      title: "تخطط لرحلة؟",
-      text: "أرسل لنا مواعيدك ووجهتك — وسنعود إليك بالخيارات وسعر واضح.",
-      whatsapp: "تواصل عبر واتساب",
-      visit: "زر مكتبنا",
-    },
     servicePage: {
       home: "الرئيسية",
       titleSuffix: "في خورفكان، الشارقة",
@@ -369,8 +603,10 @@ const ar: Content = {
       metaDescription:
         "زر النزهة للسياحة في شارع السينما، خورفكان، الشارقة، أو اتصل على 050 367 4950. راسلنا عبر واتساب للعمرة والتأشيرات والطيران والرحلات.",
       eyebrow: "اتصل بنا",
-      title: "لنخطط لرحلتك معاً.",
-      text: "راسلنا عبر واتساب، أو اتصل بنا، أو زر مكتبنا في خورفكان.",
+      titleA: "تواصل",
+      titleEm: "معنا",
+      text: "نحن هنا لمساعدتك في التخطيط لرحلتك القادمة",
+      directions: "احصل على الاتجاهات",
       mobile: "الجوال وواتساب",
       tel: "الهاتف",
       email: "البريد الإلكتروني",
@@ -396,6 +632,7 @@ const ar: Content = {
     },
     footer: {
       about: "شريكك المحلي في خورفكان للعمرة والتأشيرات والطيران والعطلات.",
+      explore: "تصفح",
       services: "خدماتنا",
       contact: "تواصل معنا",
       tel: "هاتف",
@@ -406,6 +643,8 @@ const ar: Content = {
       general: "مرحباً النزهة للسياحة، أود الاستفسار عن",
       umrah: "مرحباً النزهة للسياحة، أود الحصول على عرض سعر لباقة عمرة.",
       service: (title: string) => `مرحباً النزهة للسياحة، أود الاستفسار عن ${title}.`,
+      package: (title: string) => `مرحباً النزهة للسياحة، أود معرفة تفاصيل وأسعار باقة ${title}.`,
+      custom: "مرحباً النزهة للسياحة، أود باقة سفر حسب الطلب.",
       floatLabel: "تواصل معنا عبر واتساب",
     },
     notFound: { title: "الصفحة غير موجودة", text: "الصفحة التي تبحث عنها غير موجودة.", back: "العودة إلى الرئيسية" },
